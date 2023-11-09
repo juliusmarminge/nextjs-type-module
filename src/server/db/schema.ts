@@ -23,6 +23,7 @@ export const posts = mysqlTable(
   "post",
   {
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    foo: varchar("foo", { length: 255 }),
     name: varchar("name", { length: 256 }),
     createdById: varchar("createdById", { length: 255 }).notNull(),
     createdAt: timestamp("created_at")
