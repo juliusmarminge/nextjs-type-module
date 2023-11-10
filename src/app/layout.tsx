@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { cache } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,6 +17,8 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+const getHeaders = cache(() => Promise.resolve(headers()));
+
 export default function RootLayout({
   children,
 }: {
@@ -24,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider headers={headers()}>{children}</TRPCReactProvider>
+        <TRPCReactProvider headersPromise={getHeaders()}>
+          {children}
+        </TRPCReactProvider>
       </body>
     </html>
   );
