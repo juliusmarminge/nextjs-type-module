@@ -1,10 +1,9 @@
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { cache } from "react";
+import { cookies } from "next/headers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,7 +16,7 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const getHeaders = cache(() => Promise.resolve(headers()));
+const getCookieString = () => Promise.resolve(cookies().toString());
 
 export default function RootLayout({
   children,
@@ -27,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider headersPromise={getHeaders()}>
+        <TRPCReactProvider cookiePromise={getCookieString()}>
           {children}
         </TRPCReactProvider>
       </body>

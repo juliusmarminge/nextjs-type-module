@@ -12,9 +12,9 @@ export const api = createTRPCReact<AppRouter>();
 
 export function TRPCReactProvider(props: {
   children: React.ReactNode;
-  headersPromise: Promise<Headers>;
+  cookiePromise: Promise<string>;
 }) {
-  const headers = use(props.headersPromise);
+  const cookie = use(props.cookiePromise);
   const [queryClient] = useState(() => new QueryClient());
 
   const [trpcClient] = useState(() =>
@@ -29,9 +29,10 @@ export function TRPCReactProvider(props: {
         unstable_httpBatchStreamLink({
           url: getUrl(),
           headers() {
-            const heads = new Map(headers);
-            heads.set("x-trpc-source", "react");
-            return Object.fromEntries(heads);
+            return {
+              cookie,
+              "x-trpc-source": "react",
+            };
           },
         }),
       ],
