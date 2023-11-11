@@ -34,6 +34,8 @@ export const api = createTRPCProxyClient<typeof appRouter>({
     }),
     /**
      * Custom RSC link that invokes procedures directly in the server component
+     * Don't be too afraid about the complexity here, it's just wrapping `callProcedure`
+     * with an observable to make it a valid ending link for tRPC.
      */
     () =>
       ({ op }) =>
